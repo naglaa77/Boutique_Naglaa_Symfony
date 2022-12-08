@@ -20,21 +20,30 @@ class RegisterType extends AbstractType
         $builder
             ->add('firstname',TextType::class,[
                 'label' => 'Votre prénom',
-                'constraints' => new Length(2,30),
+                'constraints' => new Length([
+                    'min' => 2,
+                    'max' => 30
+                ]),
                 'attr' => [
                     'placeholder' => 'saisir votre prénom'
                 ]
             ])
             ->add('lastname',TextType::class,[
                 'label' => 'Votre nom',
-                'constraints' => new Length(2,30),
+                'constraints' => new Length([
+                    'min' => 2,
+                    'max' => 30
+                ]),
                 'attr' => [
                     'placeholder' => 'saisir votre nom'
                 ]
             ])
             ->add('email',EmailType::class,[
                 'label' => 'Votre email',
-                'constraints' => new Length(2,60),
+                'constraints' => new Length([
+                    'min' => 2,
+                    'max' => 30
+                ]),
                 'attr' => [
                     'placeholder' => 'saisir votre email'
                 
@@ -45,8 +54,18 @@ class RegisterType extends AbstractType
             'invalid_message' => 'Le mot de pass et la confirmation doivent être identique',
             'required' => true,
             'label' => 'Votre mot de passe',
-            'first_options' =>['label' =>'Mot de passe'],
-            'second_options' => ['label' => 'Confirmez votre mot de passe'],
+            'first_options' =>[
+            'label' =>'Mot de passe',
+            'attr' => [
+                'placeholder' => 'saisir votre mot de passe.'
+                ]
+            ],
+            'second_options' => [
+            'label' => 'Confirmez votre mot de passe',
+                'attr' => [
+                'placeholder' => 'confirmez mot de passe.'
+                ]
+            ],
             'attr' => [
                 'placeholder' => 'saisir votre password'
                 ]
