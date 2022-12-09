@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Mon compte -Boutiquenaglaa{% endblock %}
+
+{% block content %}
+<h1>Mon Compte</h1>
+Bienvenue {{ app.user.firstname }} dans votre compte.<br/>C'est dans cet espace que vous allez pouvoir gérer toutes informations personnelles.
+<hr>
+- <a href="{{ path('account_password') }}"> Modifier mon mot de passe</a><br>
+
+    
+
+{% endblock %}
