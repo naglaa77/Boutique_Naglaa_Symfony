@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nos produits - Boutiquenaglaa{% endblock %}
+
+{% block content %}
+    <h1>Nos Produits</h1>
+
+    <div class="row product-container">
+        {% for product in products %}
+      <div class="col-md-4">
+        <div class="product-item text-center">
+            <img src="/uploads/{{ product.illustration }}" alt="{{product.name }}" class="img-fluid">
+            <h5>{{ product.name }}</h5>
+            <span class="product-subtitle">{{  product.subtitle }}</span>
+               <span class="product-price"> {{ (product.price /100) | number_format(2,',','.') }}</span> 
+        </div>
+      </div>
+
+        {% endfor %} 
+
+    </div>
+
+{% endblock %}
