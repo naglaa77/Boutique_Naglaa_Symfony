@@ -9,6 +9,8 @@ use App\Form\SearcheType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class ProductController extends AbstractController
 {
@@ -21,12 +23,25 @@ class ProductController extends AbstractController
     }
 
     #[Route('/nos-produits', name: 'products')]
-    public function index(EntityManagerInterface $entityManger): Response
+    public function index(EntityManagerInterface $entityManger,Request $request): Response
     {
+
         $searche = new Searche();
         $form = $this->createForm(SearcheType::class, $searche);
+        $form->handleRequest($request);
+
+    
         
-        $products = $this->entityManger->getRepository(Product::class)->findAll();
+        if ($form->isSubmitted() && $form->isValid()) { 
+           // $searche = $form->getData(); on n'a besoine de cette etape just pour verifier
+        $products = $this->entityManger->getRepository(Product::class)->findWithSearche($searche);   
+        } else {
+
+            $products = $this->entityManger->getRepository(Product::class)->findAll();
+
+        }
+       
+
 
         return $this->render('product/index.html.twig',[
             'products' => $products,

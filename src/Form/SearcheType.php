@@ -8,6 +8,8 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Category;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 class SearcheType extends AbstractType
 {
 
@@ -18,7 +20,8 @@ class SearcheType extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr' =>[
-                    'placeholder' => 'Votre recherche ...'
+                    'placeholder' => 'Votre recherche ...',
+                    'class' => 'form-control-sm'
                 ]
             
             ])
@@ -28,6 +31,13 @@ class SearcheType extends AbstractType
                 'class' =>Category::class,
                 'multiple' => true,
                 'expanded' => true,
+            ])
+            ->add('submit', SubmitType::class,[
+                'label' => 'Filtrer',
+                'attr' => [
+                  'class' =>  'btn-block btn-info'
+                
+                ]
             ])
 
         ;
