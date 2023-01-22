@@ -7,8 +7,10 @@ use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-
+use App\Repository\ProductRepository;
+use Symfony\Component\HttpFoundation\RequestStack;
 class CartController extends AbstractController
 {
 
@@ -31,14 +33,44 @@ class CartController extends AbstractController
         ]);
     }
 
-    #[Route('/cart/add/{id}', name: 'add_to_cart')]
-    public function add(Cart $cart,$id): Response
+    #[Route('/cart/add/{id}', name: 'add_to_cart',requirements:['id' => '\d+'])]
+    public function add(Cart $cart,$id,ProductRepository $productRepository,RequestStack $requestStack): Response
     {
+        //-	Securisation : est ce que le produit exist
+        $session = $requestStack->getSession(); //symfony6
+        $product = $productRepository->find($id);
+
+        if (!$product) {
+            throw $this->createNotFoundException("le produit $id n'exist pas");
+            
+        }
+    
+    //-	Retrouver le panier dans la session sous form de tableau
+    //-	Si il n’exist pas encore alors prendre un tableau vide 
+        $cart = $session->get('cart',[]);
+
+    //-	Voir le produit ($id) exist deje dans le tableau 
+        if(array_key_exists($id,$cart)) {
+            $cart[$id]++;
+
+        }else { //-	Sinon ajouter le produit avec quantity 1
+            $cart[$id] = 1;
+
+        }
+        $session->set('cart',$cart);
+        //$request->getSession()->remove('cart');
+    
+        dd($session->get('cart'));
 
        $cart->add($id);
         
-        return $this->redirectToRoute('cart');;
+        return $this->redirectToRoute('cart',[
+            'slug' => $product->getSlug()
+
+        ]);
     }
+
+
 
     #[Route('/cart/remove', name: 'remove_my_cart')]
     public function remove(Cart $cart): Response

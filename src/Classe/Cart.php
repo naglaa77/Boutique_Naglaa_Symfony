@@ -1,27 +1,31 @@
 <?php
 
 namespace App\Classe;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 use App\Entity\Product;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Doctrine\ORM\EntityManagerInterface;
+
+use App\Repository\ProductRepository;
+
 
 class Cart 
 {
 
-    private $session;
+    private $requestStack;
     private $entityManger;
 
-    public function __construct(EntityManagerInterface $entityManger,SessionInterface $session) 
+    public function __construct(EntityManagerInterface $entityManger,RequestStack $requestStack) 
     {
-        $this->session = $session;
-        $this->entityManger = $entityManger;    
+        $this->requestStack = $requestStack;
+        $this->entityManger = $entityManger;   
+        
     }
 
     public function add($id)
 
     {
-        $cart = $this->$session->get('cart',[]);
+        $cart = $this->requestStack->getSession()->get('cart',[]);
 
         if (!empty($cart[$id])) {
             $cart[$id]++;
@@ -31,32 +35,32 @@ class Cart
             $cart[$id] = 1;
         }
 
-        $this->session->set('cart',$cart);
+        $this->requestStack->getSession()->set('cart',$cart);
 
     }
 
     public function get()
     {
-        return $this->session->get('cart');
+        return $this->requestStack->getSession()->get('cart');
 
     }
 
     public function remove()
     {
-        return $this->session->remove('cart');
+        return $this->requestStack->getSession()->remove('cart');
 
     }
 
     public function delete($id)
     {
-        $cart = $this->$session->get('cart',[]);  
+        $cart = $this->requestStack->getSession()->get('cart',[]);  
         unset($cart[$id]);
-        return $this->session->set('cart',$cart)  ;      
+        return $this->requestStack->getSession()->set('cart',$cart)  ;      
     }
     public function decrease($id)
     {
 
-        $cart = $this->$session->get('cart',[]);
+        $cart = $this->requestStack->getSession()->get('cart',[]);
 
         if ($cart[$id] > 1) {
             // retirer une quantite 
@@ -66,7 +70,7 @@ class Cart
             // supprimer mon produit
             unset($cart[$id]);
         }
-        return $this->session->set('cart',$cart)  ; 
+        return $this->requestStack->getSession()->set('cart',$cart)  ; 
     }
 
     public function getFull()
