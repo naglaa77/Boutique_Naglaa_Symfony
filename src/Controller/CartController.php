@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Controller;
-
 use App\Classe\Cart;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,18 +22,28 @@ class CartController extends AbstractController
     }
 
     #[Route('/mon-panier', name: 'cart')]
-    public function index(Cart $cart): Response
+    public function index(Cart $cart,RequestStack $requestStack,ProductRepository $productRepository): Response
     {
- 
+  $session = $requestStack->getSession(); //symfony6
+        
+        $detaileCart =[];//pour cheque produit un tanleau associative[12=>['product'=> contain de product,'quantity' =>contain de quantite ]]
+
+        foreach($session->get('cart',[]) as $id => $quantity) { // cart =[2 =>3,4=>5]
+
+            $detaileCart[] =[
+                'product' => $productRepository->find($id), // [tout l'info de product]
+                'quantity' => $quantity
+            ];
+        }
         return $this->render('cart/index.html.twig',[
         
-            'cart' =>$cart->getFull()
+            'cart' =>$detaileCart
         
         ]);
     }
 
     #[Route('/cart/add/{id}', name: 'add_to_cart',requirements:['id' => '\d+'])]
-    public function add(Cart $cart,$id,ProductRepository $productRepository,RequestStack $requestStack): Response
+    public function add(Cart $cart,$id,ProductRepository $productRepository,RequestStack $requestStack ): Response
     {
         //-	Securisation : est ce que le produit exist
         $session = $requestStack->getSession(); //symfony6
@@ -60,9 +69,11 @@ class CartController extends AbstractController
         $session->set('cart',$cart);
         //$request->getSession()->remove('cart');
     
-        dd($session->get('cart'));
+        $flashBag = $session->getBag('flashes');
+        //$this->addflash('success',"le produit a bien ete ajoute au panier");
+        $flashBag->add('success',"le produit a bien ete ajoute au panier");
 
-       $cart->add($id);
+       //$cart->add($id);
         
         return $this->redirectToRoute('cart',[
             'slug' => $product->getSlug()

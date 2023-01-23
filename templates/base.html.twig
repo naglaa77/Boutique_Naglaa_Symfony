@@ -122,7 +122,16 @@
 
     <div class="container marketing {% if block('carousel')  is not defined %} mt-5 {% endif %} ">
 
-{% block content %} {% endblock %}
+{% block content %}
+{% for rubrique,messages in app.flashes %} {# messages sont tableau in tableau  #}
+        <div class='alert alert-{{ rubrique }}'>
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+ {% endblock %}
 
 
     </div><!-- /.container -->
