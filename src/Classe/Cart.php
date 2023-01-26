@@ -12,8 +12,8 @@ use App\Repository\ProductRepository;
 class Cart 
 {
 
-    private $requestStack;
-    private $entityManger;
+    protected $requestStack;
+    protected $entityManger;
 
     public function __construct(EntityManagerInterface $entityManger,RequestStack $requestStack) 
     {

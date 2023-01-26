@@ -24,7 +24,7 @@ class CartController extends AbstractController
     #[Route('/mon-panier', name: 'cart')]
     public function index(Cart $cart,RequestStack $requestStack,ProductRepository $productRepository): Response
     {
-  $session = $requestStack->getSession(); //symfony6
+        $session = $requestStack->getSession(); //symfony6
         
         $detaileCart =[];//pour cheque produit un tanleau associative[12=>['product'=> contain de product,'quantity' =>contain de quantite ]]
 
@@ -105,8 +105,18 @@ class CartController extends AbstractController
     #[Route('/cart/decrease/{$id}', name: 'decrease_to_cart')]
     public function decrease(Cart $cart,$id): Response
     {
+       $session = $requestStack->getSession(); //symfony6
+        $product = $productRepository->find($id);
 
-       $cart->decrease($id);
+        if(array_key_exists($id,$cart)) {
+                    $cart[$id]++;
+
+                }else { //-	Sinon ajouter le produit avec quantity 1
+                    unset($cart[$id]);
+
+                }
+                $session->set('cart',$cart);
+    //    $cart->decrease($id);
         
         return $this->redirectToRoute('cart');
     }

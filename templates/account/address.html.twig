@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Mes address -Boutiquenaglaa{% endblock %}
+
+{% block content %}
+<a href="{{ path('account_address_add') }}" class="btn btn-info btn-sm">Ajouter une addresse</a>
+<h1>Mes address</h1>
+C'est dans cet espace que vous allez pouvoir gérer toutes vos address.<br/>
+<a href="{{ path('account') }}"/>Retour</a>
+<hr>
+{% if app.user.addresses | length == 0 %}
+<p class="text-center">Vous n'avez pas encore ajoute d'address dans votre compte client.Pour ajouter une ,veuillez<a href="{{ path('account_address_add') }}">Cliquer ice</a></p>
+{% else %}
+afficher l'addresse
+{% endif %}
+    
+
+{% endblock %}

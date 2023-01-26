@@ -37,11 +37,11 @@ MON panier
         <small> {{ product.product.subtitle  }}</small>
         </th>
         <td>
-            <a href="{{ path('add_to_cart', {'id': product.product.id})  }}">
+            <a href="{{ path('decrease_to_cart', {'id': product.product.id})  }}">
                 <img src="{{ asset('assets/img/minus-sign.png') }}" height="12px" alt="retirer un produit">
             </a>
             x {{ product.quantity }}
-            <a href="{{ path('decrease_to_cart',{'id': product.product.id}) }}">
+            <a href="{{ path('add_to_cart',{'id': product.product.id}) }}">
                 <img src="{{ asset('assets/img/plus.png') }}" height="12px" alt="ajouter un produit">
             </a>
         </td>
