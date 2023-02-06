@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Controller;
-
+use App\Classe\Cart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,7 +28,7 @@ class AccountAddressController extends AbstractController
     }
 
     #[Route('/compte/ajouter-une-addresse', name: 'account_address_add')]
-    public function add(Request $request,EntityManagerInterface $entityManager): Response
+    public function add(Request $request,EntityManagerInterface $entityManager,Cart $cart): Response
     {
        
         $address = new Address();
@@ -41,7 +41,15 @@ class AccountAddressController extends AbstractController
             $address->setUser( $this->getUser());
             $entityManager->persist($address);
             $entityManager->flush();
-            return $this->redirectToRoute('account_address');
+
+            if ($cart->get()) {
+                return $this->redirectToRoute('order');
+
+            }else {
+
+                return $this->redirectToRoute('account_address');
+            }
+            
         }
         
        

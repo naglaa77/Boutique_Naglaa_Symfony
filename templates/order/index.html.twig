@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Valider ma commande - Boutiquenaglaa{% endblock %}
+
+{% block content %}
+
+
+<h2>Passer ma commande </h2>
+<p>choisissez vos préférence avant de passer votre commande sur la Boutiquenaglaa</p>
+<hr>
+<div class="row">
+    <div class="col-md-4">
+        {% set formHtml %}
+              {{ form(form) }}
+        {% endset %}
+        <b>Choisir mon adresse de livrasion</b><br>
+            {{ formHtml | replace({'[-]' : '<br>'})|raw}}
+        <b>Choisir mon trasporteur</b>
+
+    </div>
+    <div class="col-md-6">
+        <b>Récap de ma commande</b>
+        <b>Boutton pour payer</b>
+    </div>
+</div>
+{% endblock %}

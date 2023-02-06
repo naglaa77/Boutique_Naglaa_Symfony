@@ -37,7 +37,7 @@ MON panier
         <small> {{ product.product.subtitle  }}</small>
         </th>
         <td>
-            <a href="{{ path('decrease_to_cart', {'id': product.product.id})  }}">
+            <a href="{{ path('decrease_to_cart',{'id': product.product.id})  }}">
                 <img src="{{ asset('assets/img/minus-sign.png') }}" height="12px" alt="retirer un produit">
             </a>
             x {{ product.quantity }}
@@ -60,7 +60,7 @@ MON panier
     <div class="text-right mb-5">
     <b>Nombre de produit:</b> {{ cart|length }}<br>
     <b>Total de mon Panier:</b>  {{ (total /100) | number_format(2,',','.') }} $
-    <a href="" class="btn btn-success btn-block mt-3">Valider mon panier</a>
+    <a href="{{ path('order') }}" class="btn btn-success btn-block mt-3">Valider mon panier</a>
     </div>
 {% else %}
     <hr>

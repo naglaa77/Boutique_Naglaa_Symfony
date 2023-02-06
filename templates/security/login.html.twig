@@ -3,40 +3,47 @@
 {% block title %}Se connecter -Boutiquenaglaa{% endblock %}
 
 {% block content %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+<div class="block-small">
+    <form method="post">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Merci de vous connecter</h1>
-    <label for="inputEmail">Votre Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="votre adresse email" autocomplete="email" required autofocus>
-    <label for="inputPassword">votre mot de passe</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="votre mot de passe" autocomplete="current-password" required>
+        {% if app.user %}
+            <div class="mb-3">
+                You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+            </div>
+        {% endif %}
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+        <h1 class="h3 mb-3 font-weight-normal">Merci de vous connecter</h1>
+        <label for="inputEmail">Votre Email</label>
+        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="votre adresse email" autocomplete="email" required autofocus>
+        <label for="inputPassword">votre mot de passe</label>
+        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="votre mot de passe" autocomplete="current-password" required>
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
+        <input type="hidden" name="_csrf_token"
+            value="{{ csrf_token('authenticate') }}"
+        >
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
+        {#
+            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+            See https://symfony.com/doc/current/security/remember_me.html
 
-    <button class="btn btn-lg btn-primary btn-sm mt-4 mb-4" type="submit">
-       Se connecter
-    </button>
-</form>
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Remember me
+                </label>
+            </div>
+        #}
+
+        <button class="btn btn-lg btn-info btn-block btn-sm mt-4 mb-4" type="submit">
+        Se connecter
+        </button>
+        <hr>
+        <p class="text-center">Ou souhaitez-vous <a href="{{ path('register') }}">Creer un compte</a></p>
+    </form>
+
+</div>
+
 {% endblock %}
