@@ -79,7 +79,7 @@ class Cart
        $cartComplete = [];
         if ($this->get()) {
             foreach ($this->get() as $id => $quantity) {
-                $product_object = $this->$entityManger->getRepository(Product::class)->findOneById($id);
+                $product_object = $this->entityManger->getRepository(Product::class)->findOneById($id);
                 
                 if (!$product_object) {
 
