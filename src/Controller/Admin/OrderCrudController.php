@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Order;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class OrderCrudController extends AbstractCrudController
 {
@@ -22,4 +23,10 @@ class OrderCrudController extends AbstractCrudController
         ];
     }
     */
+    // pour afficher id en desc 
+    public function configureCrud(Crud $crud):Crud 
+    {
+
+        return $crud->setDefaultSort(['id' => 'DESC']);
+    }
 }

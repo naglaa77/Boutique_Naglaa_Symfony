@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation de commande Boutiquenaglaa{% endblock %}
+
+{% block content %}
+<h2> Confirmation de commande </h2>
+<p>Bonjour 
+<strong>{{ order.user.firstname }} {{ order.user.lastname }}</strong><br/>
+nous vous remercions pour votre commande n <strong>{{ order.reference }}</strong><br/>
+Une confirmation vient de etre envoyer par email a l'adresse  <strong>{{  order.user.email  }}</strong>.
+</p>
+<hr>
+Votre commande sera livree par <strong>{{ order.carrierName }}</strong> a l'adresse suivante : <br/>
+
+{{ order.delivery |raw }}
+<hr>
+pour suivre votre commande, rendez vous dans votre <a href=" {{ path('account') }}">compte</a>.
+
+{% endblock %}

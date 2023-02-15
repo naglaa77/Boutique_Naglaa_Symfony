@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
-
+{% block javascripte %}
+    <script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
 {% block title %}Paiement ma commande - Boutiquenaglaa{% endblock %}
 
 {% block content %}
@@ -53,7 +55,43 @@
 <strong>Livrison :  </strong> {{ (carrier.price) | number_format(2,',','.') }} €<br>
 <hr>
 <strong>Total : {{ ((total /100) + carrier.price) | number_format(2,',','.') }} €  </strong>
-       <a href="" class="btn btn-success btn-block mt-3">Payer | {{ ((total /100) + carrier.price) | number_format(2,',','.') }} €</a>
+       <a href="{{ path('stripe_create_session',{'reference':reference}) }}"  class="btn btn-success btn-block mt-3" id="checkout-button" >Payer | {{ ((total /100) + carrier.price) | number_format(2,',','.') }} €</a>
     </div>
 </div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+ 
+        var stripe = Stripe['_ton apikey'];
+        var checkoutButton = document.getElementById("checkout-button");
+        checkoutButton.addEventListener("click", function () {
+            fetch("/commande/create-session/{{ reference }}", {
+                method: "POST",
+            })
+                .then(function (response) {
+                    return response.json();
+                })
+                 .then(function (session) {
+
+                    if (session.error == 'order) 
+                    {
+                        window.location.replace('{{ path('order') }});
+                    }else {
+                        return stripe.redirectToCheckout({ sessionId: session.id});
+                    } 
+                 })
+                 .then(function (result) {
+ 
+ 
+                     if (result.error) {
+                         alert(result.error.message);
+                     }
+                 })
+                  .catch(function (error) {
+                      console.error("Error", error);
+                  })
+        })
+ 
+    </script>
 {% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur de paiement -  Boutiquenaglaa{% endblock %}
+
+{% block content %}
+<h2> Erreur de paiement</h2>
+<p>Bonjour 
+<strong>{{ order.user.firstname }} {{ order.user.lastname }}</strong><br/>
+Il resemblait que paiement est echoue pour votre commande. n <strong>{{ order.reference }}</strong><br/>
+Une confirmation d'erreur vient de etre envoyer par email a l'adresse  <strong>{{  order.user.email  }}</strong>.
+</p>
+<hr>
+<a href="{{ path('order') }}" class="btn btn-success">Reessayer le paiement</a>
+{% endblock %}
