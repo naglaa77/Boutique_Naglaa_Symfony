@@ -49,7 +49,17 @@ class Order
     {
         $this->orderDetails = new ArrayCollection();
     }
+//pour afficher le total prix  en space membre 
+    public function getTotal()
+    {
+        $total = null;
+        foreach ($this->getOrderDetails()->getValues() as $product) {
+            $total = $total + ($product->getPrice() * $product->getQuantity()) ;   
+        
+        }
+        return $total;
 
+    }
     public function getId(): ?int
     {
         return $this->id;

@@ -87,6 +87,11 @@ class OrderDetails
         return $this->total;
     }
 
+    public function __toString()
+    {
+        return $this->getTotal();
+    }
+
     public function setTotal(float $total): self
     {
         $this->total = $total;

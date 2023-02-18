@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Mes commandes -Boutiquenaglaa{% endblock %}
+
+{% block content %}
+<h1>Mes commandes</h1>
+C'est dans cet espace que vous allez pouvoir gérer toutes vos commandes.<br/>
+<a href="{{ path('account') }}"/>Retour</a>
+<hr>
+{% if orders | length == 0 %}
+<hr>
+<p class="text-center">Vous n'avez pas encore passe de commande sur la boutique naglaa.</p>
+{% else %}
+    <table class="table mt-3">
+        <thead>
+            <tr>
+            <th scope="col">Reference</th>
+            <th scope="col">Passee le</th>
+            <th scope="col">Produit(s)</th>
+            <th scope="col">Total</th>
+            <th scope="col"></th>
+            </tr>
+        </thead>
+
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td><span class="badge badge-secondary">{{ order.reference }}</span></td>
+                    <td>{{ order.createdAt | date('d/m/Y') }}</td>
+                    <td>{{ order.orderDetails | length }}</td>
+                    <td>{{ ((order.carrierPrice + order.getTotal ) / 100) |number_format(2,',','.')}} Є</td> 
+                    <td class="text-right"><a href="{{ path('account_order_show',{'reference': order.reference}) }}">Voir ma commande</a></td>
+                </tr>
+            
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endif %}
+    
+
+{% endblock %}
